@@ -1,0 +1,27 @@
+{
+  "name": "team-profile-generator",
+  "version": "1.0.0",
+  "description": "node app for generating HTML webpages",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "inquirer": "^8.0.0",
+    "jest": "^26.6.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/japankid-code/team-profile-generator.git"
+  },
+  "author": "Jake Rankin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/japankid-code/team-profile-generator/issues"
+  },
+  "homepage": "https://github.com/japankid-code/team-profile-generator#readme"
+}
