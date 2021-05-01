@@ -10,19 +10,9 @@ test('check all required props are present', () => {
 })
 
 test('make sure all getters do the proper getting', () => {
-  const employee = () => {
-    this.name = 'jake';
-    this.id = 234;
-    this.email = 'me@email.com';
-    this.role = 'admin';
-    this.getName = () => this.name;
-    this.getId = () => this.id;
-    this.getEmail = () => this.email;
-    this.getRole = () => this.role;
-  }
-  const mockEmployee = jest.fn(employee)
-  expect(mockEmployee.getName()).toHaveReturnedWith("jake")
-  expect(mockEmployee.getId()).toHaveReturnedWith(234)
-  expect(mockEmployee.getEmail()).toHaveReturnedWith("me@email.com")
-  expect(mockEmployee.getRole()).toHaveReturnedWith("employee")
+  const employee = new Employee();
+  expect(employee.getName()).toEqual('jake');
+  expect(employee.getId()).toEqual(expect.any(Number));
+  expect(employee.getEmail()).toEqual('me@email.com');
+  expect(employee.getRole()).toEqual('employee');
 })
