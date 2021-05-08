@@ -32,7 +32,7 @@ const employeeCard = ({ name, role, id, email, special }) => {
           <p class="p-2">ID: ${id}</p>
           <p class="p-2">
             Email: 
-            <a href="mailto:${email}?subject=Well hello new employee :) title&body=The message contents.>
+            <a href="mailto:${email}">
               ${email}
             </a>
           </p>

@@ -1,6 +1,8 @@
 const HTMLtemplate = require('./src/HTML-template.js');
 const fs = require('fs');
 const inquirer = require('inquirer');
+const open = require('open');
+const path = require('path');
 
 let employees = [];
 // inquirer prompts will go here, will have to wrap them in a function
@@ -116,4 +118,5 @@ const writeFile = (employees) => {
   let htmlGen = HTMLtemplate(employees);
   fs.writeFile('./dist/index.html', htmlGen, () => '');
   console.log(`HTML file written in the dist/ directory.`);
+  open(path.join(__dirname, './dist/index.html'))
 }
