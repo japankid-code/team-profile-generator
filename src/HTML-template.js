@@ -20,7 +20,19 @@ const iconPicker = (role) => {
   }
 }
 
+const specialSetter = (role, special) => {
+  switch (role) {
+    case 'Manager':
+      return (`Office Number: ${special}`)
+    case 'Engineer':
+      return (`Github: <a class="underline" href="https://github.com/${special}">${special}</a>`);
+    case 'Intern':
+      return (`School: ${special}`)
+  }
+}
+
 const employeeCard = ({ name, role, id, email, special }) => {
+  // special needs
   return (
 `    <div class="flex flex-col w-64 m-3 h-full rounded-xl shadow-lg">
       <div class="bg-blue-500 rounded-t-xl">
@@ -32,11 +44,11 @@ const employeeCard = ({ name, role, id, email, special }) => {
           <p class="p-2">ID: ${id}</p>
           <p class="p-2">
             Email: 
-            <a href="mailto:${email}">
+            <a class="underline" href="mailto:${email}?subject=This%20is%20a%20subject&body=this is a body :)">
               ${email}
             </a>
           </p>
-          <p class="p-2">${special}</p>
+          <p class="p-2">${specialSetter(role, special)}</p>
         </div>
       </div>
     </div>
@@ -65,7 +77,7 @@ module.exports = (employees) => {
   <header class="bg-red-500 h-24 flex items-center justify-center">
     <h1 class="text-2xl">My Team</h1>
   </header>
-  <main class="m-4 mt-12 flex-grow flex flex-row justify-center">
+  <main class="m-4 mt-12 flex flex-row justify-center max-w-4xl flex-wrap self-center">
     <!-- employee cards starts here -->
 ${employeeCards}
   </main>
