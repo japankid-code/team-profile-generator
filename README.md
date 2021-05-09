@@ -13,10 +13,13 @@ node app to generate an HTML webpage
 
 ## Installation
 
-First of all, install [node](https://nodejs.org/en/).
+First of all, make sure you have installed [node](https://nodejs.org/en/).
 Here are the list of commands used to get the application working:
 
-npm install jest, npm install inquirer
+```bash
+npm i
+npm start
+```
 
 ## Usage
 

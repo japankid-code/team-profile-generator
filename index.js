@@ -133,7 +133,6 @@ const teamMaker = ()=> {
 
 // after grabbing the data from the prompts, write to file in dist
 const writeFile = (employees) => {
-  console.log(employees)
   let htmlGen = HTMLtemplate(employees);
   fs.writeFile('./dist/index.html', htmlGen, () => '');
   console.log(`File written to ${__dirname}\\dist\\index.html`);
