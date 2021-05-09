@@ -4,11 +4,15 @@ const inquirer = require('inquirer');
 const open = require('open');
 const path = require('path');
 
+const Employee = require('./lib/Employee')
+// const Engineer = require('lib/Engineer');
+// const Intern = require('lib/Intern');
+// const Manager = require('lib/Manager');
+
 let employees = [];
 // inquirer prompts will go here, will have to wrap them in a function
 // the function will be used to pass employees to an array
 const employeeAdder = () => {
-  
   inquirer
     .prompt([
       {
@@ -64,28 +68,52 @@ const employeeAdder = () => {
     .catch(err => {});
 }
 
-inquirer
-  .prompt([
-    // questions go here
-    {
-      type: 'confirm',
-      name: 'confirm',
-      message: 'Would you like to add an employee?',
-      default: true,
-    },
-  ])
-  .then(answers => {
-    if (answers.confirm === true) {
-      employeeAdder();
-    } else {
-      writeFile(employeeList)
-      console.log("Alright thank you have a wonderful day!")
-    }
-  })
-  .catch(err => {});
+const promptStarterOld = () => {
+  inquirer
+    .prompt([
+      {
+        type: 'confirm',
+        name: 'confirm',
+        message: 'Would you like to add an employee?',
+        default: true,
+      },
+    ])
+    .then(answers => {
+      if (answers.confirm === true) {
+        employeeAdder();
+      } else {
+        writeFile(employeeList)
+        console.log("Alright thank you have a wonderful day!")
+      }
+    })
+    .catch(err => {});
+}
 
 
-
+// this prompt starter will eventually call new Manager() to begin prompting.
+const promptStarterNew = () => {
+  inquirer
+    .prompt([
+      {
+        type: 'confirm',
+        name: 'confirm',
+        message: 'Would you like to create a new team page?',
+        default: true,
+      },
+    ])
+    .then(answers => {
+      if (answers.confirm === true) {
+        // manager should be called first 
+        let teammate = new Employee();
+        teammate.getName();
+        employees.push(teammate);
+      } else {
+        writeFile(employeeList)
+        console.log("Alright thank you have a wonderful day!")
+      }
+    })
+    .catch(err => {});
+}
 
 // a pre-defined object for testing output
 const employeeList = [
@@ -94,21 +122,35 @@ const employeeList = [
   role: 'Manager',
   id: 1,
   email: 'me@email.com',
-  special: 'green'
-},
-{ 
-  name: 'jake',
-  role: 'Intern',
-  id: 1,
-  email: 'me@email.com',
-  special: 'green'
+  special: '325'
 },
 { 
   name: 'jake',
   role: 'Engineer',
   id: 1,
   email: 'me@email.com',
-  special: 'green'
+  special: 'japankid-code'
+},
+{ 
+  name: 'jake',
+  role: 'Engineer',
+  id: 1,
+  email: 'me@email.com',
+  special: 'japankid-code'
+},
+{ 
+  name: 'jake',
+  role: 'Engineer',
+  id: 1,
+  email: 'me@email.com',
+  special: 'japankid-code'
+},
+{ 
+  name: 'jake',
+  role: 'Intern',
+  id: 1,
+  email: 'me@email.com',
+  special: 'UW Madison'
 },
 ]
 
@@ -120,3 +162,5 @@ const writeFile = (employees) => {
   console.log(`HTML file written in the dist/ directory.`);
   open(path.join(__dirname, './dist/index.html'))
 }
+
+promptStarterNew();
