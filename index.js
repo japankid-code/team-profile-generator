@@ -36,8 +36,8 @@ const addManager = () => {
         },
     ])
     .then(answers => {
+      answers.id = employees.length + 1;
       const manager = new Manager(answers);
-      console.log(manager)
       // push the new employee to the employees array
       employees.push(manager);
       if (answers.add) {
@@ -89,14 +89,16 @@ const employeeAdder = () => {
     ])
     .then(answers => {
       if (answers.role === 'Engineer') {
-        const engineer = new Engineer(answers.name, answers.email, answers.special);
+        answers.id = employees.length + 1;
+        const engineer = new Engineer(answers);
         // push the new employee to the employees array
         employees.push(engineer);
       } else if (answers.role === 'Intern') {
-        const intern = new Intern(answers.name, answers.email, answers.special);
-        // push the new employee to the employees array
+        answers.id = employees.length + 1;
+        const intern = new Intern(answers);
         employees.push(intern);
-      } else if (answers.add) {
+      }
+      if (answers.add) {
         employeeAdder();
       } else {
         writeFile(employees);
@@ -121,49 +123,20 @@ const teamMaker = ()=> {
       if (answers.confirm === true) {
         addManager();
       } else {
-        writeFile(employeeList)
-        console.log("Sample page opening in browser, have a wonderful day!")
+        console.log("Well, shoot.")
+        return;
       }
     })
     .catch(err => {});
 
 }
 
-
-
-
-// a pre-defined object for testing output
-const employeeList = [
-  { 
-  name: 'jake',
-  role: 'Manager',
-  id: 1,
-  email: 'me@email.com',
-  special: 'green'
-},
-{ 
-  name: 'jake',
-  role: 'Intern',
-  id: 2,
-  email: 'me@email.com',
-  special: 'green'
-},
-{ 
-  name: 'jake',
-  role: 'Engineer',
-  id: 3,
-  email: 'me@email.com',
-  special: 'green'
-},
-]
-
-
 // after grabbing the data from the prompts, write to file in dist
 const writeFile = (employees) => {
   console.log(employees)
   let htmlGen = HTMLtemplate(employees);
   fs.writeFile('./dist/index.html', htmlGen, () => '');
-  console.log(`HTML file written in the dist/ directory.`);
+  console.log(`File written to ${__dirname}\\dist\\index.html`);
   open(path.join(__dirname, './dist/index.html'))
 }
 

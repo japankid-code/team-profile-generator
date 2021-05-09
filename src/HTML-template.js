@@ -58,11 +58,7 @@ const employeeCard = ({ name, role, id, email, special }) => {
 
 module.exports = (employees) => {
   // generate a card for each employee
-  let employeeCards = employees.map((employee, index) => {
-      employee.id = index + 1;
-      return employeeCard(employee);
-    }).join("")
-  console.log(employeeCards)
+  let employeeCards = employees.map((employee, index) => employeeCard(employee)).join("")
   return (
 `<!DOCTYPE html>
 <html lang="en">
