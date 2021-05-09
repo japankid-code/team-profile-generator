@@ -4,11 +4,52 @@ const inquirer = require('inquirer');
 const open = require('open');
 const path = require('path');
 
+const Manager = require('./lib/Manager');
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
+
 let employees = [];
-// inquirer prompts will go here, will have to wrap them in a function
-// the function will be used to pass employees to an array
+// first employee prompt for manager of the team
+const addManager = () => {
+  inquirer
+      .prompt([
+        {
+          type: 'input',
+          name: 'name',
+          message: "what is the Manager's name?"
+        },
+        {
+          type: 'input',
+          name: 'email',
+          message: "what is the manager's email?",
+        },
+        {
+          type: 'input',
+          name: 'special',
+          message: "what is the manager's office number?",
+        },
+        {
+          type: 'confirm',
+          name: 'add',
+          message: 'Would you like to add employees?',
+          default: true,
+        },
+    ])
+    .then(answers => {
+      const manager = new Manager(answers);
+      console.log(manager)
+      // push the new employee to the employees array
+      employees.push(manager);
+      if (answers.add) {
+        employeeAdder();
+      } else {
+        writeFile(employees);
+      }
+    })
+    .catch(err => {});
+}
+
 const employeeAdder = () => {
-  
   inquirer
     .prompt([
       {
@@ -25,13 +66,7 @@ const employeeAdder = () => {
         type: 'list',
         name: 'role',
         message: 'What role does this employee perform?',
-        choices: ['Engineer', 'Manager', 'Intern']
-      },
-      {
-        type: 'input',
-        name: 'special',
-        message: "what is the manager's office number?",
-        when: (answers) => answers.role === 'Manager',
+        choices: ['Engineer', 'Intern']
       },
       {
         type: 'input',
@@ -53,9 +88,15 @@ const employeeAdder = () => {
       },
     ])
     .then(answers => {
-      // push the new employee to the employees array
-      employees.push(answers);
-      if (answers.add) {
+      if (answers.role === 'Engineer') {
+        const engineer = new Engineer(answers.name, answers.email, answers.special);
+        // push the new employee to the employees array
+        employees.push(engineer);
+      } else if (answers.role === 'Intern') {
+        const intern = new Intern(answers.name, answers.email, answers.special);
+        // push the new employee to the employees array
+        employees.push(intern);
+      } else if (answers.add) {
         employeeAdder();
       } else {
         writeFile(employees);
@@ -64,25 +105,29 @@ const employeeAdder = () => {
     .catch(err => {});
 }
 
-inquirer
-  .prompt([
-    // questions go here
-    {
-      type: 'confirm',
-      name: 'confirm',
-      message: 'Would you like to add an employee?',
-      default: true,
-    },
-  ])
-  .then(answers => {
-    if (answers.confirm === true) {
-      employeeAdder();
-    } else {
-      writeFile(employeeList)
-      console.log("Alright thank you have a wonderful day!")
-    }
-  })
-  .catch(err => {});
+
+const teamMaker = ()=> {
+  inquirer
+    .prompt([
+      // questions go here
+      {
+        type: 'confirm',
+        name: 'confirm',
+        message: 'Would you like to begin creating a team page?',
+        default: true,
+      },
+    ])
+    .then(answers => {
+      if (answers.confirm === true) {
+        addManager();
+      } else {
+        writeFile(employeeList)
+        console.log("Sample page opening in browser, have a wonderful day!")
+      }
+    })
+    .catch(err => {});
+
+}
 
 
 
@@ -99,14 +144,14 @@ const employeeList = [
 { 
   name: 'jake',
   role: 'Intern',
-  id: 1,
+  id: 2,
   email: 'me@email.com',
   special: 'green'
 },
 { 
   name: 'jake',
   role: 'Engineer',
-  id: 1,
+  id: 3,
   email: 'me@email.com',
   special: 'green'
 },
@@ -115,8 +160,11 @@ const employeeList = [
 
 // after grabbing the data from the prompts, write to file in dist
 const writeFile = (employees) => {
+  console.log(employees)
   let htmlGen = HTMLtemplate(employees);
   fs.writeFile('./dist/index.html', htmlGen, () => '');
   console.log(`HTML file written in the dist/ directory.`);
   open(path.join(__dirname, './dist/index.html'))
 }
+
+teamMaker()
